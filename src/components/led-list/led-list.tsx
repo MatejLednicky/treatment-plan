@@ -15,26 +15,15 @@ export class LedList {
   private async getWaitingPatientsAsync(){
     return await Promise.resolve(
       [{
-          name: 'Jožko Púčik',
+          name: 'Janko Hraško',
           patientId: '10001',
-          since: new Date(Date.now() - 10 * 60).toISOString(),
-          estimatedStart: new Date(Date.now() + 65 * 60).toISOString(),
-          estimatedDurationMinutes: 15,
-          condition: 'Kontrola'
+          dateStart: new Date(Date.now()).toISOString(),
+          dateEnd: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString()
       }, {
-          name: 'Bc. August Cézar',
+          name: 'Jožko Mrkvička',
           patientId: '10096',
-          since: new Date(Date.now() - 30 * 60).toISOString(),
-          estimatedStart: new Date(Date.now() + 30 * 60).toISOString(),
-          estimatedDurationMinutes: 20,
-          condition: 'Teploty'
-      }, {
-          name: 'Ing. Ferdinand Trety',
-          patientId: '10028',
-          since: new Date(Date.now() - 72 * 60).toISOString(),
-          estimatedStart: new Date(Date.now() + 5 * 60).toISOString(),
-          estimatedDurationMinutes: 15,
-          condition: 'Bolesti hrdla'
+          dateStart: new Date(Date.now() - 50 * 24 * 60 * 60 * 1000).toISOString(),
+          dateEnd: new Date(Date.now() + 50 * 24 * 60 * 60 * 1000).toISOString()
       }]
     );
   }
@@ -46,11 +35,14 @@ export class LedList {
   render() {
     return (
       <Host>
+        <h2>Zoznam liečebných plánov</h2>
         <md-list>
           {this.waitingPatients.map(patient =>
             <md-list-item>
+              <div slot="headline">Liečebný plán pacienta:</div>
               <div slot="headline">{patient.name}</div>
-              <div slot="supporting-text">{"Predpokladaný vstup: " + this.isoDateToLocale(patient.estimatedStart)}</div>
+              <div slot="supporting-text">{"Začiatok liečby: " + this.isoDateToLocale(patient.dateStart)}</div>
+              <div slot="supporting-text">{"Koniec liečby: " + this.isoDateToLocale(patient.dateEnd)}</div>
                 <md-icon slot="start">person</md-icon>
             </md-list-item>
           )}
@@ -60,6 +52,6 @@ export class LedList {
   }
   private isoDateToLocale(iso:string) {
     if(!iso) return '';
-    return new Date(Date.parse(iso)).toLocaleTimeString()
+    return new Date(Date.parse(iso)).toLocaleDateString()
   }
 }
